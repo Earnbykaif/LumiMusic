@@ -1,4 +1,4 @@
-name: Build PulseMusic APK
+name: Build Lumi Music APK
 
 on:
   push:
@@ -32,7 +32,7 @@ jobs:
       - name: Upload Debug APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: PulseMusic-v1.0.0-Debug
+          name: LumiMusic-v1.0.0-Debug
           path: app/build/outputs/apk/debug/app-debug.apk
 
       - name: Create Release

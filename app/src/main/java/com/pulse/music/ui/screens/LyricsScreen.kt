@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.sp
 import com.pulse.music.data.model.LyricLine
 import com.pulse.music.ui.theme.LyricActive
 import com.pulse.music.ui.theme.LyricInactive
-import com.pulse.music.ui.theme.PrimaryIndigo
+import com.pulse.music.ui.theme.PrimaryLumi
 import com.pulse.music.ui.theme.TextMuted
 import com.pulse.music.ui.theme.TextSecondary
 
@@ -71,12 +71,12 @@ fun LyricsScreen(
                     verticalArrangement = Arrangement.Center
                 ) {
                     CircularProgressIndicator(
-                        color = PrimaryIndigo,
+                        color = PrimaryLumi,
                         strokeWidth = 3.dp
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
-                        text = "Finding synced lyrics...",
+                        text = "Syncing live lyrics with melody...",
                         color = TextSecondary,
                         fontSize = 15.sp
                     )
@@ -98,7 +98,7 @@ fun LyricsScreen(
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "Enjoy the melody or try searching another track",
+                        text = "Enjoy the sound or search another track",
                         color = TextMuted,
                         fontSize = 13.sp,
                         textAlign = TextAlign.Center

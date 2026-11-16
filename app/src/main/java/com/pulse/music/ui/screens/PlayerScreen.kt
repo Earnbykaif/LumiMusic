@@ -51,8 +51,8 @@ import coil.compose.AsyncImage
 import com.pulse.music.data.model.LyricLine
 import com.pulse.music.data.model.Track
 import com.pulse.music.ui.theme.BackgroundDark
-import com.pulse.music.ui.theme.PrimaryIndigo
-import com.pulse.music.ui.theme.SecondaryPurple
+import com.pulse.music.ui.theme.PrimaryLumi
+import com.pulse.music.ui.theme.SecondaryRose
 import com.pulse.music.ui.theme.SurfaceDark
 import com.pulse.music.ui.theme.TextPrimary
 import com.pulse.music.ui.theme.TextSecondary
@@ -126,7 +126,7 @@ fun PlayerScreen(
                 }
 
                 Text(
-                    text = if (viewMode == PlayerViewMode.LYRICS) "LIVE SYNCED LYRICS" else "NOW PLAYING",
+                    text = if (viewMode == PlayerViewMode.LYRICS) "LIVE SYNCED LYRICS" else "LUMI MUSIC",
                     color = TextSecondary,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Bold,
@@ -141,7 +141,7 @@ fun PlayerScreen(
                     Icon(
                         imageVector = Icons.Default.Lyrics,
                         contentDescription = "Toggle Lyrics",
-                        tint = if (viewMode == PlayerViewMode.LYRICS) PrimaryIndigo else TextPrimary,
+                        tint = if (viewMode == PlayerViewMode.LYRICS) PrimaryLumi else TextPrimary,
                         modifier = Modifier.size(26.dp)
                     )
                 }
@@ -221,8 +221,8 @@ fun PlayerScreen(
                     },
                     valueRange = 0f..maxDuration,
                     colors = SliderDefaults.colors(
-                        thumbColor = PrimaryIndigo,
-                        activeTrackColor = PrimaryIndigo,
+                        thumbColor = PrimaryLumi,
+                        activeTrackColor = PrimaryLumi,
                         inactiveTrackColor = Color.White.copy(alpha = 0.15f)
                     ),
                     modifier = Modifier.fillMaxWidth()
@@ -280,7 +280,7 @@ fun PlayerScreen(
                         .clip(CircleShape)
                         .background(
                             Brush.linearGradient(
-                                colors = listOf(PrimaryIndigo, SecondaryPurple)
+                                colors = listOf(PrimaryLumi, SecondaryRose)
                             )
                         )
                 ) {
@@ -312,11 +312,4 @@ fun PlayerScreen(
             }
         }
     }
-}
-
-fun formatMillis(ms: Long): String {
-    val totalSeconds = TimeUnit.MILLISECONDS.toSeconds(ms)
-    val minutes = totalSeconds / 60
-    val seconds = totalSeconds % 60
-    return String.format("%02d:%02d", minutes, seconds)
 }

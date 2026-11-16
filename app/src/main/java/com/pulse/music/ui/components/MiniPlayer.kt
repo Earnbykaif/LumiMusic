@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
@@ -32,7 +33,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.pulse.music.data.model.Track
-import com.pulse.music.ui.theme.PrimaryIndigo
+import com.pulse.music.ui.theme.PrimaryLumi
+import com.pulse.music.ui.theme.SecondaryRose
 import com.pulse.music.ui.theme.SurfaceDark
 import com.pulse.music.ui.theme.TextPrimary
 import com.pulse.music.ui.theme.TextSecondary
@@ -56,7 +58,7 @@ fun MiniPlayer(
             .fillMaxWidth()
             .padding(horizontal = 12.dp, vertical = 6.dp)
             .clip(RoundedCornerShape(16.dp))
-            .background(SurfaceDark.copy(alpha = 0.95f))
+            .background(SurfaceDark.copy(alpha = 0.96f))
             .clickable { onClick() }
     ) {
         Row(
@@ -101,7 +103,11 @@ fun MiniPlayer(
                 modifier = Modifier
                     .size(38.dp)
                     .clip(CircleShape)
-                    .background(PrimaryIndigo)
+                    .background(
+                        Brush.linearGradient(
+                            listOf(PrimaryLumi, SecondaryRose)
+                        )
+                    )
             ) {
                 Icon(
                     imageVector = if (isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
@@ -117,7 +123,7 @@ fun MiniPlayer(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(3.dp),
-            color = PrimaryIndigo,
+            color = PrimaryLumi,
             trackColor = Color.White.copy(alpha = 0.1f)
         )
     }

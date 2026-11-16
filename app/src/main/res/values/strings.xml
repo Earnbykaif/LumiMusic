@@ -1,7 +1,9 @@
 <resources>
-    <string name="app_name">Pulse Music</string>
+    <string name="app_name">Lumi Music</string>
+    <string name="app_subtitle">Synced Lyrics • By Kaif</string>
+    <string name="creator_attribution">By Kaif (@Kaif_7.0x)</string>
     <string name="search_hint">Search songs, artists, albums...</string>
-    <string name="lyrics_title">Live Lyrics</string>
+    <string name="lyrics_title">Live Synced Lyrics</string>
     <string name="no_lyrics">No synchronized lyrics found</string>
     <string name="now_playing">Now Playing</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.pulse.music.ui.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,10 +17,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.MusicNote
+import androidx.compose.material.icons.filled.GraphicEq
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
@@ -37,6 +39,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
@@ -45,8 +48,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.pulse.music.data.model.Track
+import com.pulse.music.ui.theme.AccentCyan
 import com.pulse.music.ui.theme.BackgroundDark
-import com.pulse.music.ui.theme.PrimaryIndigo
+import com.pulse.music.ui.theme.PrimaryLumi
+import com.pulse.music.ui.theme.SecondaryRose
 import com.pulse.music.ui.theme.SurfaceDark
 import com.pulse.music.ui.theme.SurfaceVariantDark
 import com.pulse.music.ui.theme.TextPrimary
@@ -73,42 +78,69 @@ fun HomeScreen(
     ) {
         Spacer(modifier = Modifier.height(28.dp))
 
-        // App Header
+        // App Header & Branding by Kaif
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(
                 modifier = Modifier
-                    .size(40.dp)
-                    .clip(RoundedCornerShape(12.dp))
-                    .background(PrimaryIndigo),
+                    .size(46.dp)
+                    .clip(RoundedCornerShape(14.dp))
+                    .background(
+                        Brush.linearGradient(
+                            listOf(PrimaryLumi, SecondaryRose)
+                        )
+                    ),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    imageVector = Icons.Default.MusicNote,
+                    imageVector = Icons.Default.GraphicEq,
                     contentDescription = null,
                     tint = Color.White,
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier.size(26.dp)
                 )
             }
-            Spacer(modifier = Modifier.width(12.dp))
-            Column {
+
+            Spacer(modifier = Modifier.width(14.dp))
+
+            Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = "Pulse Music",
+                    text = "Lumi Music",
                     color = TextPrimary,
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    letterSpacing = 0.5.sp
                 )
                 Text(
-                    text = "Synced Lyrics & Seamless Stream",
+                    text = "Synced Lyrics • Ad-Free Streaming",
                     color = TextSecondary,
                     fontSize = 12.sp
                 )
             }
+
+            // Creator Attribution Chip
+            Box(
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .border(
+                        width = 1.dp,
+                        brush = Brush.horizontalGradient(listOf(PrimaryLumi, SecondaryRose)),
+                        shape = CircleShape
+                    )
+                    .background(SurfaceDark.copy(alpha = 0.8f))
+                    .padding(horizontal = 10.dp, vertical = 5.dp)
+            ) {
+                Text(
+                    text = "By Kaif @Kaif_7.0x",
+                    color = AccentCyan,
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
         }
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(22.dp))
 
         // Search Bar
         OutlinedTextField(
@@ -118,7 +150,7 @@ fun HomeScreen(
                 onSearch(it)
             },
             placeholder = {
-                Text("Search song, artist or album...", color = TextSecondary, fontSize = 14.sp)
+                Text("Search songs, artists, albums...", color = TextSecondary, fontSize = 14.sp)
             },
             leadingIcon = {
                 Icon(Icons.Default.Search, contentDescription = "Search", tint = TextSecondary)
@@ -135,7 +167,7 @@ fun HomeScreen(
             },
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 containerColor = SurfaceDark,
-                focusedBorderColor = PrimaryIndigo,
+                focusedBorderColor = PrimaryLumi,
                 unfocusedBorderColor = Color.Transparent,
                 focusedTextColor = TextPrimary,
                 unfocusedTextColor = TextPrimary
@@ -155,11 +187,11 @@ fun HomeScreen(
                     .weight(1f),
                 contentAlignment = Alignment.Center
             ) {
-                CircularProgressIndicator(color = PrimaryIndigo)
+                CircularProgressIndicator(color = PrimaryLumi)
             }
         } else {
             val listToShow = if (searchQuery.isNotBlank()) searchResults else trendingTracks
-            val sectionHeader = if (searchQuery.isNotBlank()) "Search Results (${listToShow.size})" else "Trending Hits"
+            val sectionHeader = if (searchQuery.isNotBlank()) "Search Results (${listToShow.size})" else "Trending Tracks"
 
             Text(
                 text = sectionHeader,
@@ -202,7 +234,7 @@ fun HomeScreen(
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
                                 text = track.title,
-                                color = if (isCurrent) PrimaryIndigo else TextPrimary,
+                                color = if (isCurrent) PrimaryLumi else TextPrimary,
                                 fontSize = 15.sp,
                                 fontWeight = FontWeight.SemiBold,
                                 maxLines = 1,
@@ -221,7 +253,7 @@ fun HomeScreen(
                         Icon(
                             imageVector = Icons.Default.PlayArrow,
                             contentDescription = "Play",
-                            tint = if (isCurrent) PrimaryIndigo else TextSecondary,
+                            tint = if (isCurrent) PrimaryLumi else TextSecondary,
                             modifier = Modifier.size(24.dp)
                         )
                     }
