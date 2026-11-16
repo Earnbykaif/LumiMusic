@@ -158,9 +158,15 @@ class MainActivity : AppCompatActivity() {
                                 onBack = { choosingAccount = false },
                                 onDone = { accountDone() },
                             )
-                            else -> WelcomeScreen(onLogin = {
-                                if (com.music.spotui.ui.screens.Onboarding.welcomeChoosesAccount(tv)) choosingAccount = true else showLogin()
-                            })
+                            else -> WelcomeScreen(
+                                onLogin = {
+                                    showLogin()
+                                },
+                                onWithoutLogin = {
+                                    com.music.spotui.data.preferences.AccountProviderPref.set(this@MainActivity, app.myspoti.api.account.AccountProviders.NONE)
+                                    accountDone()
+                                }
+                            )
                         }
                         // The sign-in page opening (the app's own screen, never a white page) or not coming (an
                         // error with Try again, never a page that stays blank): over whatever is under it.

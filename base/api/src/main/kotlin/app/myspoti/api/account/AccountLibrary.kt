@@ -16,8 +16,8 @@ object AccountProviders {
     const val DEEZER = "deezer"
     const val NONE = "none"
 
-    /** The choices offered now, in the order shown. Deezer is left out: see the research notes (no documented web player control). */
-    val OFFERED = listOf(SPOTIFY, YTMUSIC, NONE)
+    /** The choices offered now, in the order shown. YouTube Music and Deezer are left out. */
+    val OFFERED = listOf(SPOTIFY, NONE)
 
     /** [stored] if it is a choice offered now, else [fallback]. */
     fun normalized(stored: String?, fallback: String = SPOTIFY): String = stored?.takeIf { it in OFFERED } ?: fallback

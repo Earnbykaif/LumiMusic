@@ -1,5 +1,7 @@
 package com.music.spotui.ui.screens
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.material3.Surface
 import com.music.spotui.ui.theme.tone
 import com.music.spotui.ui.theme.AppText
 
@@ -73,7 +75,7 @@ import kotlin.math.sin
  * the button rise into place one after the other, over a soft green light that drifts.
  */
 @Composable
-fun WelcomeScreen(onLogin: () -> Unit) {
+fun WelcomeScreen(onLogin: () -> Unit, onWithoutLogin: () -> Unit = {}) {
     // One entrance per part, a beat apart: logo, name, features, button.
     val parts = remember { List(4) { Animatable(0f) } }
     LaunchedEffect(Unit) {
@@ -90,13 +92,13 @@ fun WelcomeScreen(onLogin: () -> Unit) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxWidth().align(Alignment.Center).padding(bottom = 120.dp),
+                modifier = Modifier.fillMaxWidth().align(Alignment.Center).padding(bottom = 140.dp),
             ) {
                 Image(
                     painter = painterResource(R.drawable.ic_launcher_foreground),
                     contentDescription = null,
                     modifier = Modifier
-                        .size(120.dp)
+                        .size(112.dp)
                         .graphicsLayer {
                             val v = parts[0].value
                             alpha = v
@@ -106,22 +108,40 @@ fun WelcomeScreen(onLogin: () -> Unit) {
                         .clip(RoundedCornerShape(32.dp))
                         .background(tone(0xFF181818)),
                 )
-                Spacer(Modifier.height(28.dp))
-                Text(stringResource(R.string.brand_name), color = AppText, fontFamily = AppSans, fontWeight = FontWeight.ExtraBold, fontSize = 40.sp,
-                    modifier = Modifier.rise(1))
-                Spacer(Modifier.height(12.dp))
+                Spacer(Modifier.height(22.dp))
+                Text(
+                    text = "Lumi Music",
+                    color = AppText,
+                    fontFamily = AppSans,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontSize = 42.sp,
+                    modifier = Modifier.rise(1)
+                )
+                Spacer(Modifier.height(8.dp))
+                Surface(
+                    shape = RoundedCornerShape(50),
+                    color = AppAccent.copy(alpha = 0.16f),
+                    border = BorderStroke(1.dp, AppAccent.copy(alpha = 0.5f)),
+                    modifier = Modifier.rise(1)
+                ) {
+                    Text(
+                        text = "By Kaif  •  @Kaif_7.0x",
+                        color = AppAccent,
+                        fontFamily = AppSans,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 13.sp,
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 5.dp)
+                    )
+                }
+                Spacer(Modifier.height(16.dp))
                 Box(Modifier.rise(2)) { Features() }
             }
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxWidth().align(Alignment.BottomCenter).rise(3),
             ) {
-                // A TV remote: the button takes the focus at once and shows it (a white ring); a
-                // focus with no look left nothing on screen to say what OK would do.
                 val ctx = androidx.compose.ui.platform.LocalContext.current
                 val tv = remember { com.music.spotui.ui.tv.Tv.isTv(ctx) }
-                // The account is chosen before any sign-in: Spotify's is no longer the first thing asked.
-                val choosesAccount = Onboarding.welcomeChoosesAccount(tv)
                 val focus = remember { androidx.compose.ui.focus.FocusRequester() }
                 var focused by remember { mutableStateOf(false) }
                 if (tv) LaunchedEffect(Unit) { delay(300); runCatching { focus.requestFocus() } }
@@ -136,29 +156,41 @@ fun WelcomeScreen(onLogin: () -> Unit) {
                         .then(if (focused) Modifier.border(3.dp, Color.White, RoundedCornerShape(50)) else Modifier)
                         .background(AppAccent),
                 ) {
-                    Text(stringResource(if (choosesAccount) R.string.welcome_start else R.string.welcome_login), color = Color.Black, fontFamily = AppSans,
-                        fontWeight = FontWeight.Bold, fontSize = 17.sp)
+                    Text(
+                        text = "Log in with Spotify",
+                        color = Color.Black,
+                        fontFamily = AppSans,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 17.sp
+                    )
                 }
-                // Or the whole setup of another device of the user's, by its QR code (same Wi-Fi).
-                var passing by remember { mutableStateOf(false) }
-                var passFocused by remember { mutableStateOf(false) }
-                Text(
-                    stringResource(R.string.pass_sign_in_with_device),
-                    color = AppText, fontFamily = AppSans, fontWeight = FontWeight.SemiBold, fontSize = 15.sp,
-                    modifier = Modifier.padding(top = 10.dp)
-                        .onFocusChanged { passFocused = it.isFocused }
-                        .pressable(0.96f, onClick = { passing = true })
+                Spacer(Modifier.height(12.dp))
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp)
+                        .pressable(0.96f, onClick = onWithoutLogin)
                         .clip(RoundedCornerShape(50))
-                        // The remote's focus shows on a TV, as on the button above.
-                        .then(if (passFocused) Modifier.border(2.dp, Color.White, RoundedCornerShape(50)) else Modifier)
-                        .padding(horizontal = 16.dp, vertical = 10.dp),
-                )
-                if (passing) com.music.spotui.pass.PassReceiveDialog(onDismiss = { passing = false })
-                // Spotify's sign-in is the account choice's to explain when it is not the next page.
-                if (!choosesAccount) Text(
-                    stringResource(R.string.welcome_privacy),
-                    color = AppText.copy(alpha = 0.5f), fontFamily = AppSans, fontSize = 13.sp, lineHeight = 18.sp,
-                    textAlign = TextAlign.Center, modifier = Modifier.padding(top = 14.dp),
+                        .border(1.dp, Color.White.copy(alpha = 0.25f), RoundedCornerShape(50))
+                        .background(Color.White.copy(alpha = 0.08f)),
+                ) {
+                    Text(
+                        text = "Continue without login",
+                        color = Color.White,
+                        fontFamily = AppSans,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 15.sp
+                    )
+                }
+                Text(
+                    text = "Free or Premium Spotify account supported.\nLumi Music never sees your password.",
+                    color = AppText.copy(alpha = 0.5f),
+                    fontFamily = AppSans,
+                    fontSize = 12.sp,
+                    lineHeight = 16.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(top = 12.dp),
                 )
             }
         }
