@@ -33,6 +33,9 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v6
 
+      - name: Ensure gradlew is executable
+        run: chmod +x ./gradlew
+
       # Unit tests (non-blocking)
       - name: Unit tests
         run: ./gradlew :app:testDebugUnitTest :host-android:testDebugUnitTest :extensions:test :api-spotify:test :host-cdp:test || true
