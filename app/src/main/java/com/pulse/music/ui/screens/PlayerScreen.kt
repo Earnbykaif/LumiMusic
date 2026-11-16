@@ -313,3 +313,10 @@ fun PlayerScreen(
         }
     }
 }
+
+private fun formatMillis(ms: Long): String {
+    val totalSeconds = TimeUnit.MILLISECONDS.toSeconds(ms)
+    val minutes = totalSeconds / 60
+    val seconds = totalSeconds % 60
+    return String.format("%02d:%02d", minutes, seconds)
+}
